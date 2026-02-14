@@ -1,0 +1,30 @@
+# .github/workflows/publish.yml
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write # OIDC token for JSR authentication
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - run: npm ci
+
+      - name: Run tests
+        run: npx vitest run
+
+      - name: Publish to JSR
+        run: npx jsr publish

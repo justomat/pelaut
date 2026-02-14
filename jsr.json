@@ -1,0 +1,19 @@
+{
+    "name": "@justomat/pelaut",
+    "version": "0.2.0",
+    "exports": "./src/cli/index.js",
+    "publish": {
+        "include": [
+            "LICENSE",
+            "README.md",
+            "src/**/*.js",
+            "jsr.json",
+            "package.json"
+        ],
+        "exclude": [
+            "tests",
+            "node_modules",
+            "_demo_server.js"
+        ]
+    }
+}
