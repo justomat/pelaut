@@ -1,4 +1,5 @@
 node_modules/
 *.log
 .pelaut/
-_demo_server.js
+demo-app/
+demo-app-wt/

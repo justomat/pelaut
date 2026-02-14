@@ -2,73 +2,71 @@
 
 🚢 A simple Node.js process manager for developers with git branch/worktree awareness.
 
-Inspired by [typicode/hotel](https://github.com/typicode/hotel), scoped to the Node.js ecosystem.
+Now with **automatic HTTPS** and **`.localhost` domains** via Caddy integration.
 
 ## Features
 
 - **Process management** — Add, start, stop, restart dev servers
-- **Reverse proxy** — Access all servers via `localhost:2000/<name>`
-- **Lazy startup** — Servers start on first request
 - **Git awareness** — Auto-detects branches and worktrees, isolates per-branch
-- **Package manager detection** — Detects npm, yarn, pnpm, bun from lockfiles
-- **Web dashboard** — Dark-mode UI at `localhost:2000` with status, logs, and controls
+- **HTTPS & Domains** — `myapp.localhost`, `myapp.feat-login.localhost` (via Caddy)
+- **Env Subdomains** — `myapp.sg.localhost` (REGION=sg), `myapp.us.localhost` (REGION=us)
+- **Web dashboard** — Dark-mode UI at `http://localhost:2001` (or `https://localhost:2000`)
+- **Package manager detection** — Detects npm, yarn, pnpm, bun
 
 ## Install
 
+Prerequisites:
+- **Caddy** (optional but recommended: `brew install caddy`)
+- Node.js 18+
+
 ```bash
 npm install
-npm link  # makes 'pelaut' available globally
+npm link
 ```
 
 ## Quick Start
 
+1. **Start the daemon**
+   ```bash
+   pelaut start
+   ```
+
+2. **Trust the local CA** (first run only)
+   ```bash
+   pelaut trust
+   ```
+
+3. **Try the Demo**
+   Generate a local git repo with a main branch and a worktree to test the dashboard:
+   ```bash
+   npm run demo
+   ```
+   Open [http://localhost:2001](http://localhost:2001) to see:
+   - `demo-app` (main branch)
+   - `demo-app--feat-login` (worktree)
+
+4. **Add your own projects**
+   ```bash
+   cd ~/my-node-app
+   pelaut add 'npm run dev'
+   
+   # Access via HTTPS
+   open https://my-node-app.localhost
+   ```
+
+## Advanced Usage
+
+### Environment Subdomains
+Run multiple variants of the same server with different environment variables:
+
 ```bash
-# Start the daemon
-pelaut start
-
-# In your project directory
-cd ~/my-node-app
-pelaut add 'npm run dev'
-
-# Visit the dashboard
-open http://localhost:2000
-
-# Or go directly to your app
-open http://localhost:2000/my-node-app
+pelaut add 'npm run dev' -e REGION=sg,us,jp
 ```
 
-## CLI Commands
-
-```
-pelaut start              Start the daemon
-pelaut stop               Stop the daemon
-pelaut add <cmd>          Register a server
-  -n, --name <name>       Custom server name
-  -p, --port <port>       Fixed port
-  -d, --dir <dir>         Working directory (default: cwd)
-pelaut rm [name]          Remove a server
-pelaut ls                 List servers
-pelaut run <cmd>          Run a temporary server
-```
-
-## Git Integration
-
-Pelaut automatically detects the git branch and whether the project is a worktree:
-
-- **Branch-aware naming**: `myapp` on main/master, `myapp--feat-login` on `feat/login`
-- **Worktree detection**: Shows worktree badge in the dashboard
-
-## Configuration
-
-Config file: `~/.pelaut/conf.json`
-
-```json
-{
-  "port": 2000,
-  "host": "127.0.0.1",
-  "timeout": 5000
-}
-```
+Access them via:
+- `https://my-node-app.sg.localhost` (REGION=sg)
+- `https://my-node-app.us.localhost` (REGION=us)
+- `https://my-node-app.jp.localhost` (REGION=jp)
 
 ## License
 
