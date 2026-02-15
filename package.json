@@ -1,6 +1,6 @@
 {
   "name": "pelaut",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A simple Node.js process manager for developers with git branch/worktree awareness",
   "type": "module",
   "bin": {
