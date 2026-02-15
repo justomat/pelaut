@@ -1,9 +1,10 @@
 {
     "name": "@justomat/pelaut",
-    "version": "0.2.1",
-    "exports": "./src/cli/index.js",
+    "version": "0.2.2",
+    "exports": "./mod.ts",
     "publish": {
         "include": [
+            "mod.ts",
             "LICENSE",
             "README.md",
             "src/**/*.js",
